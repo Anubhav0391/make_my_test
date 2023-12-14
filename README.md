@@ -8,10 +8,11 @@
 2. Add three type qustions (Categorize, Cloze, Comprehension).
 3. Responsive and user-friendly design for seamless navigation.
 4. Drag and drop inside questions for both side (Teacher & Student).
+5. Upload/Change image in test header and any question.
 
 ## Developers:
 
-`Anubhav Dixit` : Responsible for feature 1, 2, 3 & 4.
+`Anubhav Dixit`
 
 ## Used Tech Stack :
 
