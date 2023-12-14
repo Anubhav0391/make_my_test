@@ -24,6 +24,26 @@ function TeacherTest() {
     },
   ]);
 
+  function addQueFunc() {
+    setQs((prev) => [
+      ...prev,
+      {
+        type: "Categorize",
+        question: "",
+        img: "",
+        categories: [""],
+        items: [{ value: "", belong: "" }],
+      },
+    ]);
+  }
+
+  useEffect(() => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight * 2,
+      behavior: "smooth",
+    });
+  }, [Qs.length]);
+
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -58,7 +78,7 @@ function TeacherTest() {
         questions: Qs,
       };
 
-      alert('Saving the changes ...')
+      alert("Saving the changes ...");
       if (!params.id) {
         axios.post(`${url}/tests`, obj).then((res) => {
           setId(res.data.test._id);
@@ -69,7 +89,7 @@ function TeacherTest() {
         axios.patch(`${url}/tests/${id}`, obj).then((res) => {
           console.log(res);
           alert("All changes saved successfully");
-          navigate("/");
+          navigate("/tests");
         });
       }
     }
@@ -91,32 +111,38 @@ function TeacherTest() {
   ) : (
     <div className=" mt-10">
       <div className="w-[50%] m-auto">
-        <div className=" bg-white w-[100%] p-6 rounded-md mb-6 flex align-items-center justify-between border-t-8 border-l-8 border-l-[#3B82F6] border-t-[#673AB7]">
-          <Text fontSize={"40px"}>{title ? title : "New Test"}</Text>
-          <div
-            onClick={() => document.getElementById('topImg').click()}
-            className=" rounded-xl cursor-pointer"
-          >
-            {img ? (
-              <img
-                src={img}
-                width={"70px"}
-                height={"70px"}
-                alt=""
-                className=" rounded-xl"
+        <div className="bg-white w-[100%] p-6 rounded-md mb-6 border-t-8 border-l-8 border-l-[#3B82F6] border-t-[#673AB7]">
+          <div className="  flex align-items-center justify-between ">
+            <Text fontSize={"40px"}>{title ? title : "New Test"}</Text>
+            <div
+              onClick={() => document.getElementById("topImg").click()}
+              className=" rounded-xl cursor-pointer"
+            >
+              {img ? (
+                <img
+                  src={img}
+                  width={"70px"}
+                  height={"70px"}
+                  alt=""
+                  className=" rounded-xl"
+                />
+              ) : (
+                <h4 className="font-bold text-blue-500 text-[15px] flex justify-center items-center gap-3">
+                  <MdDriveFolderUpload size={"50px"} />
+                </h4>
+              )}
+              <input
+                type="file"
+                onChange={handleFileChange}
+                id={"topImg"}
+                style={{ display: "none" }}
               />
-            ) : (
-              <h4 className="font-bold text-blue-500 text-[15px] flex justify-center items-center gap-3">
-                <MdDriveFolderUpload size={"50px"} />
-              </h4>
-            )}
-            <input
-              type="file"
-              onChange={handleFileChange}
-              id={'topImg'}
-              style={{ display: "none" }}
-            />
+            </div>
           </div>
+          <p className=" text-red-500 text-[14px] mt-4">
+            Note - Sometime it takes time in uploading image. You can wait or
+            try again ...
+          </p>
         </div>
         <div>
           <div className=" mb-6">
@@ -129,28 +155,20 @@ function TeacherTest() {
             />
           </div>
           {Qs.map((el, index) => (
-            <TeaQuestion key={index} data={el} index={index} Qs={Qs} setQs={setQs} />
+            <TeaQuestion
+              key={index}
+              data={el}
+              index={index}
+              Qs={Qs}
+              setQs={setQs}
+            />
           ))}
 
           <div
             className=" bg-white flex flex-col gap-3 w-14 rounded-md h-[200px]"
             style={{ position: "fixed", top: "50vh", right: "20vw" }}
           >
-            <button
-              className=" m-auto p-2"
-              onClick={() =>
-                setQs((prev) => [
-                  ...prev,
-                  {
-                    type: "Categorize",
-                    question: "",
-                    img: "",
-                    categories: [""],
-                    items: [{ value: "", belong: "" }],
-                  },
-                ])
-              }
-            >
+            <button className=" m-auto p-2" onClick={addQueFunc}>
               <IoIosAddCircleOutline fontSize={30} />
             </button>
             <button className=" m-auto p-2" onClick={submitFunc}>
